@@ -59,18 +59,20 @@
     <div class="modal-header">
       <a href="#close" class="btn btn-clear float-right" aria-label="Close" onclick="payment_modal_close();"></a>
       <div class="modal-title h5">
-        В вашей корзине
-        <span id="items_counter"></span>
-          единицы товара
+        Корзина
       </div>
     </div>
     <div class="modal-body">
       <div class="content">
+      <?= form_open('Payment/payment'); ?>
+      <input name="items_counter" id="items_counter" style="display:none;" />
+      <input name="email" style="display:none;" value="<?= $ionAuth->user()->row()->id; ?>"/>
        <div id="payment_cart"></div>
       </div>
     </div>
     <div class="modal-footer">
-    <a class="btn" onclick="payment_modal_close();">Купить</a>
+    <button class="btn" type="submit">Купить</button>
+    </form>
      <a class="btn" onclick="payment_modal_close();">Отменить</a>
     </div>
   </div>

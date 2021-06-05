@@ -6,5 +6,7 @@ class ClientModel extends Model
     protected $table = 'Client';
 
     protected $allowedFields = ['FIO', 'pictureUrl'];
+
+
 }
 

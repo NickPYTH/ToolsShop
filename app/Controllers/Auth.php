@@ -113,11 +113,36 @@ class Auth extends \IonAuth\Controllers\Auth
         $phone       = $this->request->getPost('Телефон');
         $email       = strtolower($this->request->getPost('email'));
         $password    = $this->request->getPost('Пароль');
+        $pictureUrl       = $this->request->getPost('picture');
 
         
         if ($this->request->getPost() )
         {
-            
+            $file = $this->request->getFile('picture');
+            if ($file->getSize() != 0) {
+                $s3 = new S3Client([
+                    'version' => 'latest',
+                    'region'  => 'us-east-1',
+                    'endpoint' => 'http://polka.tplinkdns.com:9000/',
+                    'use_path_style_endpoint' => true,
+                    'credentials' => [
+                        'key'    => 'minioadmin',
+                        'secret' => 'minioadmin',
+                    ],
+                ]);
+
+                $ext = explode('.', $file->getName());
+                $ext = $ext[count($ext) - 1];
+                //загрузка файла в хранилище
+                $insert = $s3->putObject([
+                    'Bucket' => 'toolsrent', //чтение настроек окружения из файла .env
+                    //генерация случайного имени файла
+                    'Key' => getenv('S3_KEY') . '/file' . rand(100000, 999999) . '.' . $ext,
+                    'Body' => fopen($file->getRealPath(), 'r+')
+                ]);
+
+            }
+
             $identity = ($identityColumn === 'email') ? $email : $this->request->getPost('identity');
 
 
@@ -126,34 +151,12 @@ class Auth extends \IonAuth\Controllers\Auth
                 'last_name'  => $last_name,
                 'company'    => $company,
                 'phone'      => $phone,
+                'pictureUrl' => $insert['ObjectURL'],
             ];
         }
         if ($this->request->getPost() && $this->ionAuth->register($identity, $password, $email, $additionalData))
         {
-            $file = $this->request->getFile('picture');
-                if ($file->getSize() != 0) {
-                    $s3 = new S3Client([
-                        'version' => 'latest',
-                        'region'  => 'us-east-1',
-                        'endpoint' => 'http://polka.tplinkdns.com:9000/',
-                        'use_path_style_endpoint' => true,
-                        'credentials' => [
-                                'key'    => 'minioadmin',
-                                'secret' => 'minioadmin',
-                            ],
-                    ]);
 
-                    $ext = explode('.', $file->getName());
-                    $ext = $ext[count($ext) - 1];
-                    //загрузка файла в хранилище
-                    $insert = $s3->putObject([
-                        'Bucket' => 'toolsrent', //чтение настроек окружения из файла .env
-                        //генерация случайного имени файла
-                        'Key' => getenv('S3_KEY') . '/file' . rand(100000, 999999) . '.' . $ext,
-                        'Body' => fopen($file->getRealPath(), 'r+')
-                    ]);
-
-                }
 
 
 

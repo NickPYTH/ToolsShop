@@ -50,7 +50,7 @@
                <input class="form-input" type="text" placeholder="Телефон" name="Телефон">
             </div>
             <div class="form-group">
-               <label class="form-label">Телефон</label>
+               <label class="form-label">Image</label>
                <input type="file" accept="image/*" class="form-input" id="inputGroupFile01" name="picture" aria-describedby="inputGroupFileAddon01">
             </div>
             <div class="form-group">

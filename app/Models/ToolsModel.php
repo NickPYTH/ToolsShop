@@ -4,6 +4,7 @@ use CodeIgniter\Model;
 class ToolsModel extends Model
 {
     protected $table = 'Tools';
+    protected $primaryKey = 'id';
 
     protected $allowedFields = ['Name', 'Description', 'Price', 'pictureUrl'];
 
@@ -13,6 +14,12 @@ class ToolsModel extends Model
         }
         else{
             return $this;
+        }
+    }
+
+    public function get_item($item_name=null){
+        if ($item_name != null){
+            return $this->where(['Name' => $item_name])->first();
         }
     }
 }

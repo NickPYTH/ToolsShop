@@ -15,7 +15,7 @@
                     <?php if (!empty($tools) && is_array($tools)) : ?>
                     <?php foreach ($tools as $item): ?>
                     <div style="margin-bottom:15px;" class="column col-4">
-                        <div class="card">
+                        <div style="" class="card">
                         <div class="card-image">
                             <img class="img-responsive" src="<?= esc($item['pictureUrl']); ?>">
                         </div>

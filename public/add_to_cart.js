@@ -25,13 +25,14 @@ function payment_modal_open(obj){
         remove_warning_toast();
         var modal = document.getElementById("payment_modal");
         modal.classList.add("active");
-        document.getElementById("items_counter").textContent = count_items;
+        document.getElementById("items_counter").value = max_count_items;
         for (var i = 1; i <= max_count_items; i++) {
             let tmp = document.getElementById("item_"+i);
             if (tmp != null){
                 var item = `
                 <div class="chip">
-                    <div name="payment_item_${i}">${tmp.textContent}</div>
+                    <div >${tmp.textContent}</div>
+                    <input name="payment_item_${i}" style="display: none;" value="${tmp.textContent}"/>
                 </div>
                 `;
                 document.getElementById("payment_cart").insertAdjacentHTML("afterBegin", item);
