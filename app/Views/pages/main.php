@@ -62,12 +62,14 @@
         
         
     <?php else: ?>
+                <?php if (!$ionAuth->isAdmin()): ?>
         <div style="margin-bottom: 15px;" class="hero bg-gray">
             <div class="hero-body">
                 <h1>Лучший инструмент, лучшим строителям!</h1>
                 <p>Войдите в личный кабинет, чтобы оформит заказ</p>
             </div>
         </div>
+                <?php endif ?>
         <div class="container grid-lg">
             <div class="columns">
         
@@ -86,9 +88,21 @@
                         </div>
                         <div class="card-body text-center">
                             <p><?= esc($item['Description']); ?></p>
+                            <?php if (!$ionAuth->isAdmin()): ?>
                             <button style="margin-bottom: 15px;" type="submit" class="btn btn-primary" onclick="addItem(this, '<?= esc($item['Name']); ?>');">
                                 Добавить в корзину
-                            </button>      
+                            </button>
+                            <?php endif ?>
+
+                            <?php if (false): ?>
+                                <a style="margin-bottom: 15px;" class="btn btn-primary">
+                                    Редактировать
+                                </a>
+                                <a style="margin-bottom: 15px;" class="btn btn-primary" href="<?= base_url()?>/Pages/delete/<?= esc($item['id']); ?>">
+                                    Удалить
+                                </a>
+
+                            <?php endif ?>
                 
                         </div>
                         
