@@ -1,5 +1,6 @@
 <?php
 namespace App\Controllers;
+use CodeIgniter\Model;
 use IonAuth\Libraries\IonAuth;
 use function MongoDB\BSON\toJSON;
 use App\Models\ToolsModel;
@@ -49,4 +50,5 @@ class Pages extends BaseController
         echo view('pages/'.$page, $data);
 
     }
+
 }

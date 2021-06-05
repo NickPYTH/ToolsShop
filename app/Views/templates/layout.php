@@ -15,9 +15,17 @@
   <header class="navbar">
     <section class="navbar-section">
       <a href="<?= base_url()?>" class="navbar-brand mr-2">Аренда инструмента</a>
-      <?php if (! $ionAuth->loggedIn()): ?>
-        <a href="<?= base_url()?>/auth/login" class="btn btn-link">Войти</a>
-      <?php else: ?>
+        <?php if (! $ionAuth->loggedIn()): ?>
+            <a href="<?= base_url()?>/auth/login" class="btn btn-link">Войти</a>
+        <?php endif ?>
+
+        <?php if ($ionAuth->loggedIn()): ?>
+            <?php if ($ionAuth->isAdmin()): ?>
+                <a href="<?= base_url()?>/Clients/all" class="btn btn-link">Клиенты</a>
+            <?php else: ?>
+        <?php endif ?>
+
+        <?php if (!$ionAuth->isAdmin()): ?>
         <div class="popover popover-bottom">
         <button id="cart" class="btn btn-link"><a id="cart_id" class="badge" data-badge="0">
           Корзина<div id="max_count_items" style="display:none;">0<div>
@@ -36,7 +44,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div><?php endif ?>
         <a href="<?= base_url()?>/auth/logout" class="btn btn-link">Выйти</a>
       <?php endif ?>
     </section>
