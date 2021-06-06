@@ -22,6 +22,7 @@
         <?php if ($ionAuth->loggedIn()): ?>
             <?php if ($ionAuth->isAdmin()): ?>
                 <a href="<?= base_url()?>/Clients/all" class="btn btn-link">Клиенты</a>
+                <a href="<?= base_url()?>/Pages/add" class="btn btn-link">Добавить товар</a>
             <?php else: ?>
         <?php endif ?>
 

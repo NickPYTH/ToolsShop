@@ -25,7 +25,7 @@ class App extends BaseConfig
 	 */
 
 	#public $baseURL = 'http://localhost:8080/';
-    public $baseURL = 'http://tools-shop.default-app.website/';
+    public $baseURL = 'http://24tools-shop.ru/';
 	/** hq2S5TT_HEFPBf3v37TZmUtT
 	 * --------------------------------------------------------------------------
 	 * Index File
