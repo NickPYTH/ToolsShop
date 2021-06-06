@@ -4,6 +4,7 @@ use CodeIgniter\Model;
 use IonAuth\Libraries\IonAuth;
 use function MongoDB\BSON\toJSON;
 use App\Models\ToolsModel;
+use Aws\S3\S3Client;
 
 class Pages extends BaseController
 {   
@@ -52,7 +53,65 @@ class Pages extends BaseController
     }
 
     public function add(){
-        echo "work";
+        if (!$this->ionAuth->loggedIn())
+        {
+            return redirect()->to('/auth/login');
+        }
+        if ($this->request->getMethod() === 'get'){
+            helper(['form']);
+            $data ['validation'] = \Config\Services::validation();
+            echo view('pages/add', $this->withIon($data));
+        }
+        else{
+            $name = $this->request->getPost('name');
+            $description = $this->request->getPost('description');
+            $price = $this->request->getPost('price');
+            $file = $this->request->getFile('picture');
+                if ($file->getSize() != 0) {
+                    $s3 = new S3Client([
+                        'version' => 'latest',
+                        'region'  => 'us-east-1',
+                        'endpoint' => 'http://polka.tplinkdns.com:9000/',
+                        'use_path_style_endpoint' => true,
+                        'credentials' => [
+                                'key'    => 'minioadmin',
+                                'secret' => 'minioadmin',
+                            ],
+                    ]);
+
+                    $ext = explode('.', $file->getName());
+                    $ext = $ext[count($ext) - 1];
+                    //загрузка файла в хранилище
+                    $insert = $s3->putObject([
+                        'Bucket' => 'toolsrent', //чтение настроек окружения из файла .env
+                        //генерация случайного имени файла
+                        'Key' => getenv('S3_KEY') . '/file' . rand(100000, 999999) . '.' . $ext,
+                        'Body' => fopen($file->getRealPath(), 'r+')
+                    ]);
+
+                    $model = new ToolsModel();
+                
+                    $model->save([
+                        'Name' => $name,
+                        'Description' => $description,
+                        'Price' => $price,
+                        'pictureUrl' => $insert['ObjectURL'],
+                    ]);
+
+                    return redirect()->to('/');
+        }
+        
+    }
     }
 
+    public function delete($id)
+    {
+        if (!$this->ionAuth->loggedIn())
+        {
+            return redirect()->to('/auth/login');
+        }
+        $model = new ToolsModel();
+        $model->delete($id);
+        return redirect()->to('/');
+    }
 }

@@ -94,10 +94,7 @@
                             </button>
                             <?php endif ?>
 
-                            <?php if (false): ?>
-                                <a style="margin-bottom: 15px;" class="btn btn-primary">
-                                    Редактировать
-                                </a>
+                            <?php if ($ionAuth->isAdmin()): ?>
                                 <a style="margin-bottom: 15px;" class="btn btn-primary" href="<?= base_url()?>/Pages/delete/<?= esc($item['id']); ?>">
                                     Удалить
                                 </a>
