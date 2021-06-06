@@ -51,4 +51,8 @@ class Pages extends BaseController
 
     }
 
+    public function add(){
+        echo "work";
+    }
+
 }
