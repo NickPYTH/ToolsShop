@@ -4,29 +4,28 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class BookClaim extends Migration
+class TookClaim extends Migration
 {
 	public function up()
 	{
-		if (!$this->db->tableexists('ToolClaim'))
+		if (!$this->db->tableexists('ToolsClaim'))
         {
             // Setup Keys
             $this->forge->addkey('id', TRUE);
 
             $this->forge->addfield(array(
                 'id' => array('type' => 'INT', 'unsigned' => TRUE, 'null' => FALSE, 'auto_increment' => TRUE),
-				'id_order' => array('type' => 'INT', 'unsigned' => TRUE, 'null' => FALSE),
-				'id_client' => array('type' => 'INT', 'unsigned' => TRUE, 'null' => FALSE),
-				'duration' => array('type' => 'INT', 'null' => FALSE),
+				'orderGroupId' => array('type' => 'INT', 'unsigned' => TRUE, 'null' => FALSE),
+				'clientEmail' => array('type' => 'VARCHAR', 'null' => FALSE),
+				'price' => array('type' => 'INT', 'null' => FALSE),
             ));
-            $this->forge->addForeignKey('id_order','Order','id','RESTRICT','RESRICT');
-			$this->forge->addForeignKey('id_client','Reader','id','RESTRICT','RESRICT');
-            $this->forge->createtable('ToolClaim', TRUE);
+            $this->forge->addForeignKey('orderGroupId','Order','id','RESTRICT','RESRICT');
+            $this->forge->createtable('ToolsClaim', TRUE);
         }
 	}
 
 	public function down()
 	{
-		$this->forge->droptable('ToolClaim');
+		$this->forge->droptable('ToolsClaim');
 	}
 }

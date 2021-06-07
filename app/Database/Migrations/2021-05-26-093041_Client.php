@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Reader extends Migration
+class Client extends Migration
 {
 	public function up(){
 		if (!$this->db->tableexists('Client'))

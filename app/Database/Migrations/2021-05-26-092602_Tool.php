@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Book extends Migration
+class Tool extends Migration
 {
 	public function up()
 	{
